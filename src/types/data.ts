@@ -4,23 +4,24 @@ export interface User{
     id : string, 
     email : string, 
     username : string, 
-    created_at : string
+    createdAt : string
 }
 
 
 
 export interface Product{
-    id? : string, 
-    productName : string, 
-    productDescription : string, 
-    productPrice : number, 
-    productTotalStockQty : number; 
-    productImageUrl : string, 
-    createdAt? : string, 
+    
+    productName : string,  
+    description : string, 
+    price : number, 
+    stockQty : number; 
+    imageUrl ?: string, 
+    createdAt : string, 
     updatedAt? : string, 
     userId : string, 
     categoryId : string, 
     User? : User,
+    id : string,
     Category? : Category
 
 }
@@ -30,12 +31,17 @@ export enum PaymentMethod{
 }
 
 export enum OrderStatus{
-    Pending = 'pending',
-    Delivered = 'delivered',
-    Ontheway = 'ontheway',
-    Cancel = 'cancelled',
-    Preparation = 'preparation',
+    Pending = '🕔 pending',
+    Delivered = '✅ delivered',
+    Ontheway = '🚍🚚 ontheway',
+    Cancelled = '❌ cancelled',
+    Preparation = '📦 preparation',
     All = 'all'
+}
+ export enum PaymentStatus{
+    Paid = '✅ paid',
+    Unpaid = '❌ unpaid',
+    Pending = '🕔 pending'
 }
 
 interface Payment{
@@ -59,35 +65,33 @@ export interface Category{
     categoryName : string
 }
 
-export interface SingleOrder{
-    id: string,
-    quantity: number,
-    orderId: string,
-    createdAt : string,
-    Product: {
-        id: string,
-        productName: string,
-        productPrice: number,
-        productTotalStockQty: number,
-        productImageUrl: string,
-        categoryId:string,
-        Category: {
-            categoryName ? : string
-        }
-    },
-    Order: {
-        id:string,
-        phoneNumber: string,
-        shippingAddress: string,
-        totalAmount: number,
-        orderStatus: OrderStatus,
-        userId : string, 
-        Payment: {
-            paymentMethod: string,
-            paymentStatus: string
-        },
 
-    }
+
+export interface SingleOrderItem {
+    Order: {
+      id: string;
+      userId: string;
+      orderStatus: string;
+      totalAmount: number;
+      phoneNumber: string;
+      shippingAddress: string;
+      Payment?: {
+        paymentMethod: string;
+        paymentStatus: PaymentStatus;
+      };
+      User?:{
+        id : string,
+        username : string,
+        email?: string
+      }
+    };
+    Product: {
+      imageUrl: string;
+      productName: string;
+      price: number;
+    };
+    quantity: number;
+    createdAt: string;
 }
 
 export interface InititalState{
@@ -97,7 +101,7 @@ export interface InititalState{
     status : Status, 
     categories :Category[],
     singleProduct : Product | null, 
-    singleOrder : SingleOrder[]
+    singleOrder : SingleOrderItem[]
 
 }
 

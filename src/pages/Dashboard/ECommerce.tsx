@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CardDataStats from '../../components/CardDataStats';
 import ChartOne from '../../components/Charts/ChartOne';
 import ChartThree from '../../components/Charts/ChartThree';
@@ -6,38 +6,31 @@ import ChartTwo from '../../components/Charts/ChartTwo';
 import ChatCard from '../../components/Chat/ChatCard';
 import MapOne from '../../components/Maps/MapOne';
 import TableOne from '../../components/Tables/TableOne';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { fetchCaetgories, fetchOrders, fetchProducts, fetchUsers } from '../../store/dataSlice';
 
 const ECommerce: React.FC = () => {
-const {orders,products,users} = useAppSelector((state)=>state.datas)
+const {orders,products,users,categories} = useAppSelector((state)=>state.datas)
+const dispatch = useAppDispatch()
 const counts = { 
   ordersCount : orders.length, 
   usersCount : users.length, 
-  productsCount: products.length
+  productsCount: products.length,
+  categoriesCount : categories.length
 }
+
+  useEffect(() => {
+    dispatch(fetchCaetgories());
+    dispatch(fetchUsers());
+    dispatch(fetchProducts());
+    dispatch(fetchOrders());
+  }, [dispatch]);
+
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats title="Total orders" total={counts.ordersCount} levelUp>
-          <svg
-            className="fill-primary dark:fill-white"
-            width="22"
-            height="16"
-            viewBox="0 0 22 16"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M11 15.1156C4.19376 15.1156 0.825012 8.61876 0.687512 8.34376C0.584387 8.13751 0.584387 7.86251 0.687512 7.65626C0.825012 7.38126 4.19376 0.918762 11 0.918762C17.8063 0.918762 21.175 7.38126 21.3125 7.65626C21.4156 7.86251 21.4156 8.13751 21.3125 8.34376C21.175 8.61876 17.8063 15.1156 11 15.1156ZM2.26876 8.00001C3.02501 9.27189 5.98126 13.5688 11 13.5688C16.0188 13.5688 18.975 9.27189 19.7313 8.00001C18.975 6.72814 16.0188 2.43126 11 2.43126C5.98126 2.43126 3.02501 6.72814 2.26876 8.00001Z"
-              fill=""
-            />
-            <path
-              d="M11 10.9219C9.38438 10.9219 8.07812 9.61562 8.07812 8C8.07812 6.38438 9.38438 5.07812 11 5.07812C12.6156 5.07812 13.9219 6.38438 13.9219 8C13.9219 9.61562 12.6156 10.9219 11 10.9219ZM11 6.625C10.2437 6.625 9.625 7.24375 9.625 8C9.625 8.75625 10.2437 9.375 11 9.375C11.7563 9.375 12.375 8.75625 12.375 8C12.375 7.24375 11.7563 6.625 11 6.625Z"
-              fill=""
-            />
-          </svg>
-        </CardDataStats>
-        <CardDataStats title="Total Users" total={counts.usersCount}  levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -59,25 +52,43 @@ const counts = {
               fill=""
             />
           </svg>
+
+        </CardDataStats>
+        <CardDataStats title="Total Users" total={counts.usersCount}  levelUp>
+        <svg
+          className="fill-primary dark:fill-white"
+          width="20"
+          height="22"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M16 11c1.66 0 2.99-1.34 2.99-3s-1.33-3-2.99-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V20h14v-3.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V20h6v-3.5c0-2.33-4.67-3.5-7-3.5z"/>
+        </svg>
+
         </CardDataStats>
         <CardDataStats title="Total Products" total={counts.productsCount} levelUp>
-          <svg
-            className="fill-primary dark:fill-white"
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.1063 18.0469L19.3875 3.23126C19.2157 1.71876 17.9438 0.584381 16.3969 0.584381H5.56878C4.05628 0.584381 2.78441 1.71876 2.57816 3.23126L0.859406 18.0469C0.756281 18.9063 1.03128 19.7313 1.61566 20.3844C2.20003 21.0375 2.99066 21.3813 3.85003 21.3813H18.1157C18.975 21.3813 19.8 21.0031 20.35 20.3844C20.9 19.7656 21.2094 18.9063 21.1063 18.0469ZM19.2157 19.3531C18.9407 19.6625 18.5625 19.8344 18.15 19.8344H3.85003C3.43753 19.8344 3.05941 19.6625 2.78441 19.3531C2.50941 19.0438 2.37191 18.6313 2.44066 18.2188L4.12503 3.43751C4.19378 2.71563 4.81253 2.16563 5.56878 2.16563H16.4313C17.1532 2.16563 17.7719 2.71563 17.875 3.43751L19.5938 18.2531C19.6282 18.6656 19.4907 19.0438 19.2157 19.3531Z"
-              fill=""
-            />
-            <path
-              d="M14.3345 5.29375C13.922 5.39688 13.647 5.80938 13.7501 6.22188C13.7845 6.42813 13.8189 6.63438 13.8189 6.80625C13.8189 8.35313 12.547 9.625 11.0001 9.625C9.45327 9.625 8.1814 8.35313 8.1814 6.80625C8.1814 6.6 8.21577 6.42813 8.25015 6.22188C8.35327 5.80938 8.07827 5.39688 7.66577 5.29375C7.25327 5.19063 6.84077 5.46563 6.73765 5.87813C6.6689 6.1875 6.63452 6.49688 6.63452 6.80625C6.63452 9.2125 8.5939 11.1719 11.0001 11.1719C13.4064 11.1719 15.3658 9.2125 15.3658 6.80625C15.3658 6.49688 15.3314 6.1875 15.2626 5.87813C15.1595 5.46563 14.747 5.225 14.3345 5.29375Z"
-              fill=""
-            />
-          </svg>
+        <svg
+          className="fill-primary dark:fill-white"
+          width="20"
+          height="22"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M21 16V8a1 1 0 00-.553-.894l-8-4a1 1 0 00-.894 0l-8 4A1 1 0 003 8v8a1 1 0 00.553.894l8 4a1 1 0 00.894 0l8-4A1 1 0 0021 16zm-9 3.618L5 15.382V9.618l7 4.236v5.764zm1-5.764l7-4.236v5.764l-7 4.236V13.854zM12 12L5 7.764l7-3.5 7 3.5L12 12z"/>
+        </svg>
+
+        </CardDataStats>
+        <CardDataStats title="Total Categoris" total={counts.categoriesCount} levelUp>
+        <svg
+          className="fill-primary dark:fill-white"
+          width="20"
+          height="22"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M3 4h8v8H3V4m0 10h8v6H3v-6m10-10h8v4h-8V4m0 6h8v10h-8V10z"/>
+        </svg>
+
         </CardDataStats>
    
       </div>

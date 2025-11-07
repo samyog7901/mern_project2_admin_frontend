@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deleteCategory, deleteOrder, fetchCaetgories, fetchOrders, setDeleteProduct } from '../../store/dataSlice';
-import { OrderStatus } from '../../types/data';
+import { deleteCategory,  fetchCaetgories,  } from '../../store/dataSlice';
+
 
 
 const TableFour = () => {
@@ -9,9 +9,10 @@ const TableFour = () => {
   const {categories} = useAppSelector((state)=>state.datas)
   useEffect(()=>{
     dispatch(fetchCaetgories())
-  },[])
-  const handleDelete  = (id:string)=>{
-    dispatch(deleteCategory(id))
+  },[dispatch])
+  const handleDelete  = async (id:string)=>{
+    await dispatch(deleteCategory(id))
+    dispatch(fetchCaetgories())
   }
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -43,7 +44,14 @@ const TableFour = () => {
                   <h5 className="font-medium text-black dark:text-white">
                     {category.id}
                   </h5>
-                  <p className="text-sm">${category.categoryName}</p>
+                  
+                </td>
+
+                <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                  <h5 className="font-medium text-black dark:text-white">
+                    {category.categoryName}
+                  </h5>
+                  
                 </td>
              
             
@@ -68,7 +76,7 @@ const TableFour = () => {
                         />
                       </svg>
                     </button>
-                    <button onClick={()=>handleDelete(category.id)} className="hover:text-primary">
+                    <button onClick={()=>handleDelete(category.id)} className="hover:text-red-800">
                       <svg
                         className="fill-current"
                         width="18"

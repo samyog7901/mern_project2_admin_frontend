@@ -1,164 +1,240 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { handleOrderStatusById, singleOrder } from '../store/dataSlice'
-import { OrderStatus } from '../types/data'
-import { socket } from '../App'
+import  { ChangeEvent, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { handleOrderStatusById, fetchSingleOrderById, handlePaymentStatusById } from "../store/dataSlice";
+import { OrderStatus, PaymentStatus, SingleOrderItem } from "../types/data";
+import { socket } from "../App";
+
+
+// define the shape of a single order item
+
 
 const SingleOrder = () => {
-    const {id} = useParams()
-    const dispatch = useAppDispatch()
-    const {singleOrder:[order]} = useAppSelector((state)=>state.datas)
-    const [orderStatus,setOrderStatus] = useState(order?.Order?.orderStatus as string)
+  const { id } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
+  const { singleOrder } = useAppSelector((state) => state.datas);
+ //@ts-ignore
+  const [orderStatus, setOrderStatus] = useState<OrderStatus | string>("");
+  //@ts-ignore
+  const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | string>("");
 
-    useEffect(()=>{
-        if(id){
-
-            dispatch(singleOrder(id))
-        }
-    },[])
-
-    const handleOrderStatus = (e:ChangeEvent<HTMLSelectElement>)=>{
-        setOrderStatus(e.target.value)
-        if(id) {
-          socket.emit('updatedOrderStatus',{
-            status : e.target.value, 
-            orderId : id, 
-            userId : order.Order.userId
-          })
-          dispatch(handleOrderStatusById(e.target.value as OrderStatus,id))
-        }
-        
-
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchSingleOrderById(id));
     }
+  }, [id, dispatch]);
 
+  const handleOrderStatus = (e: ChangeEvent<HTMLSelectElement>) => {
+    const status = e.target.value as OrderStatus;
+    setOrderStatus(status);
+
+    const orderInfo = singleOrder[0];
+    if (id && orderInfo) {
+      socket.emit("updateStatus", {
+        type : "ORDER_STATUS",
+        status,
+        orderId: id,
+        userId: orderInfo.Order.userId,
+      });
+      dispatch(handleOrderStatusById(status, id));
+    }
+  };
+  const handlePaymentStatus = (e: ChangeEvent<HTMLSelectElement>) => {
+    const status = e.target.value as PaymentStatus;
+    setPaymentStatus(status);
+
+    const orderInfo = singleOrder[0];
+    if (id && orderInfo) {
+      socket.emit("updateStatus", {
+        type : "PAYMENT_STATUS",
+        status,
+        orderId: id,
+        userId: orderInfo.Order.userId,
+      });
+      dispatch(handlePaymentStatusById(status,id));
+    }
+  };
+
+  const handleDeleteOrder = (orderId: string) => {
+    socket.emit("deleteOrder", { orderId });
+  };
+
+  if (!singleOrder || singleOrder.length === 0) {
+    return (
+      <div className="py-20 text-center text-gray-500">
+        Loading order details...
+      </div>
+    );
+  }
+
+  const orderInfo = singleOrder[0];
+  const paymentMap: Record<string, PaymentStatus> = {
+    paid: PaymentStatus.Paid,
+    unpaid: PaymentStatus.Unpaid,
+    pending: PaymentStatus.Pending,
+  };
+
+  const orderMap: Record<string, OrderStatus> = {
+    pending: OrderStatus.Pending,
+    delivered: OrderStatus.Delivered,
+    ontheway: OrderStatus.Ontheway,
+    preparation: OrderStatus.Preparation,
+    cancelled: OrderStatus.Cancelled,
+    all : OrderStatus.All,
+  };
 
   return (
     <div className="py-20 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-    
-    <div className="flex justify-start item-start space-y-5 flex-col">
-      <h1 className="text-1xl dark:text-white lg:text-2xl font-semibold leading-7 lg:leading-9 text-gray-600">Order {id}</h1>
-      <p className="text-base dark:text-gray-300 font-medium leading-6 text-gray-600">{order?.createdAt}</p>
-    </div>
-    <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
-      <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-        <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
-          <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">My Order</p>
-   
-              <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
-              <div className="pb-4 md:pb-8 w-full md:w-40">
-                <img className="w-full hidden md:block"  alt="dress" />
-                <img className="w-full md:hidden" src={order?.Product?.productImageUrl} alt="dress" />
-              </div>
-              <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
-                <div className="w-full flex flex-col justify-start items-start space-y-8">
-                  <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">{order?.Product?.productName}</h3>
-                </div>
-                <div className="flex justify-between space-x-8 items-start w-full">
-                  <p className="text-base dark:text-white xl:text-lg leading-6">Rs. {order?.Product?.productPrice} </p>
-                  <p className="text-base dark:text-white xl:text-lg leading-6 text-gray-800">Qty: {order?.quantity} </p>
-                  <p className="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">Rs.{order?.Product?.productPrice * order?.quantity} </p>
-                </div>
-              </div>
-            </div>
-    
-   
-        </div>
-        <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-          <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-            <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">Summary</h3>
-            <div className="flex justify-center items-center w-full space-y-4 flex-col border-gray-200 border-b pb-4">
-
-              <div className="flex justify-between items-center w-full">
-                <p className="text-base dark:text-white leading-4 text-gray-800">Payment Method</p>
-                <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{order?.Order?.Payment?.paymentMethod}</p>
-              </div>
-              <div className="flex justify-between items-center w-full">
-                <p className="text-base dark:text-white leading-4 text-gray-800">Payment Status</p>
-                <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{order?.Order?.Payment?.paymentStatus}</p>
-              </div>
-              <div className="flex justify-between items-center w-full">
-                <p className="text-base dark:text-white leading-4 text-gray-800">Order Status</p>
-                <p className="text-base dark:text-gray-300 leading-4 text-gray-600">{order?.Order?.orderStatus}</p>
-              </div>
-            </div>
-            <div className="flex justify-between items-center w-full">
-              <p className="text-base dark:text-white font-semibold leading-4 text-gray-800">Total</p>
-              <p className="text-base dark:text-gray-300 font-semibold leading-4 text-gray-600">{100 + order?.quantity * order?.Product?.productPrice}</p>
-            </div>
-          </div>
-          <div className="flex flex-col justify-center px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
-            <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">Shipping</h3>
-            <div className="flex justify-between items-start w-full">
-              <div className="flex justify-center items-center space-x-4">
-                <div className="w-8 h-8">
-                  <img className="w-full h-full" alt="logo" src="https://i.ibb.co/L8KSdNQ/image-3.png" />
-                </div>
-                <div className="flex flex-col justify-start items-center">
-                  <p className="text-lg leading-6 dark:text-white font-semibold text-gray-800">Delivery Charge<br /><span className="font-normal">Delivery with 24 Hours</span></p>
-                </div>
-              </div>
-              <p className="text-lg font-semibold leading-6 dark:text-white text-gray-800">Rs 100</p>
-            </div>
-
-          </div>
-        </div>
+      {/* ---------- Header ---------- */}
+      <div className="flex flex-col space-y-2 my-2">
+        <h1 className="text-2xl font-semibold text-gray-700">Order {id}</h1>
+        <p className="text-base text-gray-500 dark:text-gray-400">
+          {orderInfo?.createdAt
+            ? new Date(orderInfo.createdAt).toLocaleDateString()
+            : ""}
+        </p>
       </div>
-      <div className="bg-gray-50 dark:bg-gray-800 w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-2 md:p-1 xl:p-8 flex-col" style={{height:'200px'}}>
-        <h3 className="text-xl dark:text-white font-semibold leading-5 text-gray-800">Customer</h3>
-        <div className="flex flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0">
-    
-          <div className="flex justify-between xl:h-full items-stretch w-full flex-col mt-6 md:mt-0">
-            <div className="flex justify-center md:justify-start xl:flex-col flex-col md:space-x-6 lg:space-x-8 xl:space-x-0 space-y-4 xl:space-y-12 md:space-y-0 md:flex-row items-center md:items-start">
-              <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
-              <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">UserName : test</p>
-                <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Address : itahari</p>
-                <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">Phone : 9123123</p>
+
+      {/* ---------- Main Layout ---------- */}
+      <div className="mt-10 flex flex-col xl:flex-row justify-between items-start w-full xl:space-x-8 space-y-8 xl:space-y-0">
+        {/* ---------- Left Section ---------- */}
+        <div className="flex flex-col w-full space-y-6 xl:max-h-[80vh] xl:overflow-y-auto pr-2 scrollbar-hide">
+          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm flex flex-col w-full space-y-6 xl:max-h-[300px] xl:overflow-y-auto  custom-scrollbar scrollbar-hide">
+            <p className="text-lg md:text-xl dark:text-white font-semibold mb-4">
+              Order Items
+            </p>
+
+            {singleOrder.map((order: SingleOrderItem) => (
+              <div
+                key={order.Order?.id}
+                className="flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 border-b border-gray-200 pb-6 mb-4"
+              >
+                {order.Product && (
+                  <div>
+                      <div className="w-full md:w-36">
+                  <img
+                    className="w-full rounded-lg object-cover"
+                    src={order.Product?.imageUrl}
+                    alt={order.Product?.productName}
+                  />
+                </div>
+                <div className="flex flex-col md:flex-row justify-between w-full md:items-center mt-4 md:mt-0 space-y-2 md:space-y-0">
+                  <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+                    {order.Product?.productName}
+                  </h3>
+                  <div className="flex justify-between md:justify-end space-x-6 w-full md:w-auto">
+                    <p className="text-gray-700 dark:text-gray-300">
+                      Rs.{order?.Product?.price}
+                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      Qty: {order?.quantity}
+                    </p>
+                    <p className="font-semibold text-gray-800 dark:text-gray-200">
+                      Rs.{order.Product?.price * order?.quantity}
+                    </p>
+                  </div>
+                </div>
+                  </div>
+                )}
               </div>
+            ))}
+          </div>
 
+          {/* ---------- Order Summary ---------- */}
+          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+              Order Summary
+            </h3>
+            <div className="space-y-2 text-gray-700 dark:text-gray-300">
+              <div className="flex justify-between">
+                <p>Payment Method</p>
+                <p>{orderInfo?.Order?.Payment?.paymentMethod}</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Payment Status</p>
+                <p>{paymentMap[orderInfo?.Order?.Payment?.paymentStatus || "pending"]}</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Order Status</p>
+                <p className="transition-all duration-300 ease-in-out">{orderMap[orderInfo?.Order?.orderStatus || "pending"]}</p>
+              </div>
+              <hr className="my-2 border-gray-300" />
+              <div className="flex justify-between">
+                <p>Subtotal</p>
+                <p>Rs. {orderInfo?.Order?.totalAmount - 100}</p>
+              </div>
+              <div className="flex justify-between">
+                <p>Shipping (24-hour delivery)</p>
+                <p>Rs. 100</p>
+              </div>
+              <div className="flex justify-between font-semibold text-lg mt-2">
+                <p>Total</p>
+                <p>Rs. {orderInfo?.Order?.totalAmount}</p>
+              </div>
             </div>
-            <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-   
-        
-       <div style={{display:'flex',flexDirection:'column',padding:'18px'}}>
-       <div>
-         <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Order Status</label>
-          <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleOrderStatus} >
-          {/* <option value={filteredOrder?.orderStatus}>{filteredOrder?.orderStatus}</option> */}
-          <option value="pending">pending</option>
-          <option value="delivered">Delivered</option>
-         
-          <option value="ontheway">Ontheway</option>
-          <option value="preparation">Preparation</option>
-          <option value="cancelled">Cancelled</option>
-          </select>
-         </div>
+          </div>
+        </div>
 
+        {/* ---------- Right Section: Customer Details ---------- */}
+        <div className="bg-gray-50 dark:bg-gray-800 w-full xl:w-96 p-6 rounded-xl shadow-sm flex flex-col justify-between space-y-6 xl:sticky xl:top-24">
           <div>
-          <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Payment Status</label>
-          <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-     
-          <option value="pending">pending</option>
-          <option value="paid">paid</option>
-          <option value="unpaid">unpaid</option>
-
-          </select>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+              Customer Details
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">
+              <strong>Name:</strong> {orderInfo?.Order.User?.username}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 mb-2">
+              <strong>Address:</strong> {orderInfo?.Order?.shippingAddress}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300">
+              <strong>Phone:</strong> {orderInfo?.Order?.phoneNumber}
+            </p>
           </div>
-       </div>
+          <div className="flex w-full justify-center items-center md:justify-start md:items-start">
+          <div style={{display:'flex',flexDirection:'column',padding:'18px'}}>
+          <div>
+            <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Order Status</label>
+              <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handleOrderStatus} >
+              {/* <option value={filteredOrder?.orderStatus}>{filteredOrder?.orderStatus}</option> */}
+              <option value="pending">pending</option>
+              <option value="delivered">Delivered</option>
+            
+              <option value="ontheway">Ontheway</option>
+              <option value="preparation">Preparation</option>
+              <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
 
-            </div>
-      
-            <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-              <button className="mt-6 md:mt-0 dark:border-white dark:hover:bg-gray-900 dark:bg-transparent dark:text-white py-3 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base font-medium leading-4 text-gray-800" style={{marginTop:'10px',backgroundColor:'red',color:'white'}} >Delete Order</button>
-  
-            </div>
-              
+              <div>
+              <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Payment Status</label>
+              <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={handlePaymentStatus}>
+        
+              <option value="pending">pending</option>
+              <option value="paid">paid</option>
+              <option value="unpaid">unpaid</option>
+
+              </select>
+              </div>
+          </div>
+          </div>
+
+          
+
+          {/* Action Buttons */}
+          <div className="flex flex-col space-y-3">
+            <button
+              onClick={() => handleDeleteOrder(orderInfo?.Order?.id)}
+              className="bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+            >
+              Delete Order
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  )
-}
+        </div>
+        </div>
 
-export default SingleOrder
+  );
+};
+
+export default SingleOrder;

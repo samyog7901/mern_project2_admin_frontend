@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deleteOrder, fetchOrders, setDeleteProduct } from '../../store/dataSlice';
+import { deleteOrder, fetchOrders, setDeleteOrder} from '../../store/dataSlice';
 import { OrderStatus } from '../../types/data';
 import { Link } from 'react-router-dom';
 
@@ -8,11 +8,19 @@ import { Link } from 'react-router-dom';
 const TableThree = () => {
   const dispatch = useAppDispatch()
   const {orders} = useAppSelector((state)=>state.datas)
+  const getStatusColor = (status: OrderStatus | undefined) => {
+    const normalized = status?.toLowerCase();
+    if (normalized === 'delivered') return 'bg-green-500 text-white';
+    if (normalized === 'cancelled') return 'bg-red-600 text-white';
+    return 'bg-yellow-500 text-white';
+  }
   useEffect(()=>{
     dispatch(fetchOrders())
-  },[])
-  const handleDelete  = (id:string)=>{
-    dispatch(deleteOrder(id))
+  },[dispatch])
+  const handleDelete  = async (id:string)=>{
+   await dispatch(deleteOrder(id))
+   dispatch(fetchOrders())
+   
   }
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -49,7 +57,11 @@ const TableThree = () => {
                   <h5 className="font-medium text-black dark:text-white">
                   <Link to={`/order/${order.id}`}>{order.id}</Link>
                   </h5>
-                  <p className="text-sm">${order.phoneNumber}</p>
+                </td>
+                <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  <p className="text-black dark:text-white">
+                    {order.phoneNumber}
+                  </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <p className="text-black dark:text-white">
@@ -57,17 +69,12 @@ const TableThree = () => {
                   </p>
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${
-                      order.orderStatus === OrderStatus.Delivered
-                        ? 'bg-success text-success'
-                        : order.orderStatus === OrderStatus.Cancel
-                        ? 'bg-danger text-danger'
-                        : 'bg-warning text-warning'
-                    }`}
-                  >
-                    {order.orderStatus}
-                  </p>
+                <p
+                  className={`inline-flex rounded-full py-1 px-3 text-sm font-medium transition-all duration-300 ease-in-out  ${getStatusColor(order.orderStatus)}`}
+                >
+                  {order.orderStatus}
+                </p>
+
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
@@ -90,7 +97,7 @@ const TableThree = () => {
                         />
                       </svg>
                     </button>
-                    <button onClick={()=>handleDelete(order.id)} className="hover:text-primary">
+                    <button onClick={()=>handleDelete(order.id)} className="hover:text-red-800">
                       <svg
                         className="fill-current"
                         width="18"

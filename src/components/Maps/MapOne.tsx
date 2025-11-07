@@ -1,7 +1,8 @@
-import jsVectorMap from 'jsvectormap';
 import 'jsvectormap/dist/css/jsvectormap.css';
+import jsVectorMap from 'jsvectormap';
 import { useEffect } from 'react';
 import '../../js/us-aea-en';
+
 
 const MapOne = () => {
   useEffect(() => {
@@ -39,7 +40,7 @@ const MapOne = () => {
       },
     });
     mapOne;
-  });
+  },[]);
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-7">

@@ -1,66 +1,99 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import SelectGroupOne from '../../components/Forms/SelectGroup/SelectGroupOne';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { API } from '../../http';
-import { AddProduct, addCategory, addProduct } from '../../store/dataSlice';
+import { addCategory, resetStatus } from '../../store/dataSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Status } from '../../types/status';
+import { Tag } from 'lucide-react'; // icon for a modern touch
+import {toast} from 'react-hot-toast';
 
-interface Category{
-  id : string, 
-  categoryName : string
-}
+
 const AddCategory = () => {
-  const dispatch = useAppDispatch()
-  const {status} = useAppSelector((state)=>state.datas)
-  const navigate = useNavigate()
-  const [data,setData] = useState<{
-    categoryName : string
-  }>({
-    categoryName : "", 
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.datas);
+  const navigate = useNavigate();
 
-  })
+  const [data, setData] = useState({
+    categoryName: '',
+  });
 
-  const handleChange = (e:ChangeEvent<HTMLInputElement>)=>{
-    const {name,value} = e.target 
-
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setData({
-        ...data,
-        [name] : value
-    })
-}
-const handleSubmit = async (e:FormEvent<HTMLFormElement>)=>{
-  e.preventDefault()
-  await dispatch(addCategory(data))
-  if(status === Status.SUCCESS){
-    navigate("/tables")
-  }else{
-    navigate("/forms/add-category")
-  }
-}
+      ...data,
+      [name]: value,
+    });
+  };
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!data.categoryName.trim()) return toast.error("Category name cannot be empty");
+    dispatch(addCategory(data));
+    setSubmitted(true);
+  };
+  
+  useEffect(() => {
+    if (submitted && status === Status.SUCCESS) {
+      toast.success("New category added successfully!");
+      navigate("/tables");
+      dispatch(resetStatus());
+      setSubmitted(false); // prevent multiple triggers
+    }
+  }, [submitted, status, navigate, dispatch]);
+  
+  
+  
+  
 
   return (
     <>
-      <Breadcrumb pageName="Form Layout" />
+      <Breadcrumb pageName="Add Category" />
 
-      <div className="flex items-center justify-center h-screen overflow-hidden  ">
-      <div className=" bg-white w-17/12 lg:w-9/12 md:6/12 shadow-3xl " style={{marginTop : '-200px' }}>
-   
-        <form className="p-3 md:p-5" onSubmit={handleSubmit} >
-          <div className="flex items-center mb-6 text-lg md:mb-8">
-            
-            <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
-              <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z"/>
-            </svg>
-            <input onChange={handleChange} type="text" name="categoryName" id="categoryName" className="w-full  pl-12 bg-gray-200 md:py-2 focus:outline-none" placeholder="categoryName"  />
-          </div>
-   
-          <button className="w-full p-2 font-medium text-white uppercase bg-gradient-to-b from-gray-700 to-gray-900 md:p-4">Add Category</button>
-        </form>
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 px-4 ">
+        <div className="w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 transition-all duration-300 ">
+          <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 text-center">
+            Add New Category
+          </h2>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Input field */}
+            <div className="relative">
+              <Tag className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                name="categoryName"
+                id="categoryName"
+                value={data.categoryName}
+                onChange={handleChange}
+                placeholder="Enter category name"
+                className="w-full pl-10 pr-4 py-3 dark:bg-black  border-gray-300 dark:border-blue-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none  text-gray-900 dark:text-gray-100"
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-800 text-white font-semibold text-lgfont-medium py-3 rounded-lg shadow-md hover:opacity-90  transition-all duration-300 transform hover:-translate-y-0.5"
+            >
+              Add Category
+            </button>
+
+            {/* Status Message */}
+            {status === Status.LOADING && (
+              <p className="text-center text-yellow-600 mt-2 animate-pulse">
+                Adding category...
+              </p>
+            )}
+            {status === Status.ERROR && (
+              <p className="text-center text-red-600 mt-2">
+                Failed to add category. Try again.
+              </p>
+            )}
+          </form>
+        </div>
       </div>
-     </div>
-  
     </>
   );
 };

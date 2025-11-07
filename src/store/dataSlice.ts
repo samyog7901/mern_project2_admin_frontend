@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import { Category, InititalState, OrderData, OrderStatus, Product, SingleOrder, User } from '../types/data'
+import { Category, InititalState, OrderData, OrderStatus, PaymentStatus, Product, SingleOrderItem, User } from '../types/data'
 import { Status } from '../types/status'
 
 import { AppDispatch } from './store'
@@ -8,10 +8,10 @@ import { APIAuthenticated } from '../http'
 
 export interface AddProduct{
     productName : string, 
-    productDescription : string, 
-    productPrice : number, 
-    productTotalStockQty : number, 
-    image : null, 
+    description : string, 
+    price : number, 
+    stockQty : number, 
+    imageUrl ?: string | null, 
     categoryId : string
 }
 
@@ -22,8 +22,8 @@ const initialState:InititalState = {
     users : [], 
     categories : [],
     singleOrder: [],
-   status : Status.LOADING, 
-   singleProduct : null
+    status : Status.IDLE, 
+    singleProduct : null
 }
 
 interface DeleteProduct{
@@ -62,38 +62,58 @@ const dataSlice = createSlice({
             state.singleProduct = action.payload 
         }, 
         setDeleteProduct(state:InititalState,action:PayloadAction<DeleteProduct>){
-            const index = state.products.findIndex(item=>item.id = action.payload.productId)
+            const index = state.products.findIndex(item=>item.id === action.payload.productId)
             state.products.splice(index,1)
         },
         setDeleteUser(state:InititalState,action:PayloadAction<DeleteUser>){
-            const index = state.users.findIndex(item=>item.id = action.payload.userId)
+            const index = state.users.findIndex(item=>item.id === action.payload.userId)
             state.users.splice(index,1)
         }, 
         setDeleteOrder(state:InititalState,action:PayloadAction<DeleteOrder>){
-            const index = state.orders.findIndex(item=>item.id = action.payload.orderId)
+            const index = state.orders.findIndex(item=>item.id === action.payload.orderId)
             state.orders.splice(index,1)
         }, 
         setDeleteCategory(state:InititalState,action:PayloadAction<DeleteCategory>){
-            const index = state.categories.findIndex(item=>item.id = action.payload.categoryId)
+            const index = state.categories.findIndex(item=>item.id === action.payload.categoryId)
             state.categories.splice(index,1)
         }, 
-        setSingleOrder(state:InititalState,action:PayloadAction<SingleOrder[]>){
+        setSingleOrder(state:InititalState,action:PayloadAction<SingleOrderItem[]>){
             state.singleOrder = action.payload
         }, 
         updateOrderStatusById(state:InititalState,action:PayloadAction<{orderId : string, status : OrderStatus}>){
-           const index =  state.singleOrder.findIndex(order=>order.id=action.payload.orderId)
+           const index =  state.singleOrder.findIndex(order=>order.Order.id === action.payload.orderId)
             if(index !== -1){
                 state.singleOrder[index].Order.orderStatus = action.payload.status 
                 console.log(action.payload.status,"STATUS")
             }
-        }
+        },
+        updatePaymentStatusById(state:InititalState,action:PayloadAction<{orderId : string, status : PaymentStatus}>){
+            const index =  state.singleOrder.findIndex(order=>order.Order.id === action.payload.orderId)
+            if (index !== -1) {
+                const order = state.singleOrder[index];
+            
+                if (order.Order.Payment) {
+                  order.Order.Payment.paymentStatus = action.payload.status;
+                } else {
+                  order.Order.Payment = {
+                    paymentMethod: "",
+                    paymentStatus: action.payload.status,
+                  };
+                }
+            
+                console.log(action.payload.status, "STATUS");
+              }
+         },
+         resetStatus(state){
+            state.status = Status.IDLE
+         }
         // setOrderStatus(state:InititalState,action:PayloadAction<{id:string,status:string}>){
         //     state.singleOrder
         // }, 
     }
 })
 
-export const {setOrders,setCategories,setSingleOrder,updateOrderStatusById, setDeleteCategory,setProduct,setStatus,setUsers,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder} = dataSlice.actions
+export const {setOrders,setCategories,setSingleOrder,updateOrderStatusById, setDeleteCategory,setProduct,setStatus,resetStatus,setUsers,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder,updatePaymentStatusById} = dataSlice.actions
 export default dataSlice.reducer 
 
 
@@ -178,8 +198,10 @@ export function addCategory(data:{categoryName : string}){
         try {
             const response = await APIAuthenticated.post('/admin/category',data)
             if(response.status === 200){
+                dispatch(setCategories(response.data.data))
                 dispatch(setStatus(Status.SUCCESS))
-                setCategories(response.data.data)
+                
+            
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -195,9 +217,10 @@ export function fetchCaetgories(){
         try{
             const response = await APIAuthenticated.get('admin/category')
             if(response.status === 200){
-                const {data} = response.data 
+                const {data} = response.data
+                dispatch(setCategories(data)) 
                 dispatch(setStatus(Status.SUCCESS))
-                dispatch(setCategories(data))
+                
             }else{
                 dispatch(setStatus(Status.ERROR))
             }
@@ -213,12 +236,14 @@ export function deleteProduct(id:string){
             const response = await APIAuthenticated.delete('/admin/product/' + id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
-                
+                dispatch(setDeleteProduct({productId:id}))          
             }else{
                 dispatch(setStatus(Status.ERROR))
+                
             }
         } catch (error) {
             dispatch(setStatus(Status.ERROR))
+           
         }
     }
 }
@@ -226,7 +251,7 @@ export function deleteUser(id:string){
     return async function deleteUserThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
-            const response = await APIAuthenticated.delete('/users/' + id)
+            const response = await APIAuthenticated.delete('/users/' + id) //20 minutes
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setDeleteUser({userId:id}))
@@ -249,12 +274,14 @@ export function deleteOrder(id:string){
             const response = await APIAuthenticated.delete('/order/admin/' + id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
-                dispatch(setDeleteOrder({orderId : id}))
+                dispatch(setDeleteOrder({orderId:id}))
             }else{
                 dispatch(setStatus(Status.ERROR))
+                
             }
         } catch (error) {
             dispatch(setStatus(Status.ERROR))
+            
         }
     }
 }
@@ -293,14 +320,31 @@ export function singleProduct(id:string){
     }
 }
 
-export function singleOrder(id:string){
-    return async function singleOrderThunk(dispatch : AppDispatch){
+export function fetchSingleOrderById(id:string){
+    return async function fetchSingleOrderByIdThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try {
             const response = await APIAuthenticated.get('/order/customer/' + id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setSingleOrder(response.data.data))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+export function handlePaymentStatusById(status:PaymentStatus,id:string){
+    return async function handlePaymentStatusThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.patch('/order/admin/payment/' + id,{paymentStatus : status})
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(updatePaymentStatusById({orderId:id,status}))
             }else{
                 dispatch(setStatus(Status.ERROR))
             }

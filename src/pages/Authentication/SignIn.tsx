@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import { login } from "../../store/authSlice"
+import { login, resetStatus } from "../../store/authSlice"
 import { Status } from "../../types/status"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { fetchCaetgories, fetchOrders, fetchProducts, fetchUsers } from "../../store/dataSlice"
 
 
 
@@ -34,13 +35,23 @@ const Login = () => {
     e.preventDefault()
    dispatch(login(userData))
   }
-  useEffect(()=>{
-    if(status === Status.SUCCESS){
-      navigate("/")
-    }else{
-      navigate("/login")
+  const token = useAppSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (status === Status.SUCCESS && token) {
+  
+      // Fetch dashboard data AFTER token is ready
+      dispatch(fetchCaetgories());
+      dispatch(fetchUsers());
+      dispatch(fetchProducts());
+      dispatch(fetchOrders());
+  
+      dispatch(resetStatus());
+      navigate("/");
     }
-  },[status,dispatch])
+  }, [status, token, dispatch, navigate]);
+  
+  
 
   return (
     <>
@@ -75,7 +86,7 @@ const Login = () => {
                 <span>Company</span>
               </h1>
               <h2 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                Welcome, please sign in 
+                Welcome Admin, please log in 
               </h2>
             </header>
             {/* END Header */}
@@ -142,8 +153,11 @@ const Login = () => {
                           clipRule="evenodd"
                         />
                       </svg>
-                      <span>Sign In</span>
+                      <span>Admin Log In</span>
                     </button>
+                    <Link to="http://localhost:5173/login" className="inline-block w-full sm:w-auto px-4 py-2 rounded-lg border border-blue-600 text-blue-600 font-medium hover:bg-blue-600 hover:text-white transition-all duration-200 mt-6 ml-40">
+                      Customer Log In
+                    </Link>
 
                   </div>
                 </form>
