@@ -2,6 +2,7 @@ import {createSlice,PayloadAction} from '@reduxjs/toolkit'
 import { AppDispatch } from './store'
 import { Status } from '../types/status'
 import { API } from '../http'
+import {toast} from 'react-hot-toast'
 
 
 interface LoginData{
@@ -78,7 +79,7 @@ export function login(data:LoginData){
                 const {user, token} = response.data.data
                 if(user.role !== 'admin'){
                     dispatch(setStatus(Status.ERROR))
-                    alert("Access denied. Only admins can log in.")
+                    toast.error("Access denied. Only admins can log in.")
                     return
                 }
                 dispatch(setUser({
@@ -92,11 +93,11 @@ export function login(data:LoginData){
                 localStorage.setItem("user", JSON.stringify(user))
                 
                 dispatch(setStatus(Status.SUCCESS))
-            }else{
-                dispatch(setStatus(Status.ERROR))
             }
-        } catch (error) {
+        
+        } catch (error:any) {
             dispatch(setStatus(Status.ERROR))
+            toast.error("Invalid login credentials!")
         }
     }
 }

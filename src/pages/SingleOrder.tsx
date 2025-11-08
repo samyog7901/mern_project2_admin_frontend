@@ -99,7 +99,7 @@ const SingleOrder = () => {
       <div className="mt-10 flex flex-col xl:flex-row justify-between items-start w-full xl:space-x-8 space-y-8 xl:space-y-0">
         {/* ---------- Left Section ---------- */}
         <div className="flex flex-col w-full space-y-6 xl:max-h-[80vh] xl:overflow-y-auto pr-2 scrollbar-hide">
-          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm flex flex-col w-full space-y-6 xl:max-h-[300px] xl:overflow-y-auto  custom-scrollbar scrollbar-hide">
+          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm flex flex-col w-full space-y-6 xl:max-h-[80vh] xl:overflow-y-auto  custom-scrollbar scrollbar-hide hover:lg:shadow-xl">
             <p className="text-lg md:text-xl dark:text-white font-semibold mb-4">
               Order Items
             </p>
@@ -109,34 +109,33 @@ const SingleOrder = () => {
                 key={order.Order?.id}
                 className="flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 border-b border-gray-200 pb-6 mb-4"
               >
-                {order.Product && (
-                  <div>
-                      <div className="w-full md:w-36">
+                <div className="w-full md:w-36">
                   <img
                     className="w-full rounded-lg object-cover"
                     src={order.Product?.imageUrl}
                     alt={order.Product?.productName}
                   />
                 </div>
-                <div className="flex flex-col md:flex-row justify-between w-full md:items-center mt-4 md:mt-0 space-y-2 md:space-y-0">
+
+                <div className="flex w-full md:flex-row justify-between items-center mt-4 md:mt-0">
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
                     {order.Product?.productName}
                   </h3>
-                  <div className="flex justify-between md:justify-end space-x-6 w-full md:w-auto">
+
+                  <div className="flex items-center space-x-6">
                     <p className="text-gray-700 dark:text-gray-300">
-                      Rs.{order?.Product?.price}
+                      Rs.{order.Product?.price}
                     </p>
                     <p className="text-gray-700 dark:text-gray-300">
-                      Qty: {order?.quantity}
+                      Qty: {order.quantity}
                     </p>
                     <p className="font-semibold text-gray-800 dark:text-gray-200">
-                      Rs.{order.Product?.price * order?.quantity}
+                      Rs.{order.Product?.price * order.quantity}
                     </p>
                   </div>
                 </div>
-                  </div>
-                )}
               </div>
+
             ))}
           </div>
 

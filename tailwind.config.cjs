@@ -250,5 +250,21 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-hide': {
+          /* Chrome, Safari, Edge */
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+          /* Firefox */
+          'scrollbar-width': 'none',
+          '-ms-overflow-style': 'none', 
+        },
+      }
+      addUtilities(newUtilities)
+    },
+  ],
+  
 }

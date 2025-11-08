@@ -5,6 +5,7 @@ import { login, resetStatus } from "../../store/authSlice"
 import { Status } from "../../types/status"
 import { Link, useNavigate } from "react-router-dom"
 import { fetchCaetgories, fetchOrders, fetchProducts, fetchUsers } from "../../store/dataSlice"
+import toast from "react-hot-toast"
 
 
 
@@ -33,13 +34,14 @@ const Login = () => {
   }
   const handleSubmit = (e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
+    if(!userData.email || !userData.password) return toast.error("Email and Password are required!");
    dispatch(login(userData))
   }
   const token = useAppSelector((state) => state.auth.token);
 
   useEffect(() => {
     if (status === Status.SUCCESS && token) {
-  
+      toast.success("Welcome to the dashboard, dear Admin! 🦚❤️");
       // Fetch dashboard data AFTER token is ready
       dispatch(fetchCaetgories());
       dispatch(fetchUsers());
@@ -47,6 +49,7 @@ const Login = () => {
       dispatch(fetchOrders());
   
       dispatch(resetStatus());
+      
       navigate("/");
     }
   }, [status, token, dispatch, navigate]);
