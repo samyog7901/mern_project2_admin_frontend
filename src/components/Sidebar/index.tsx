@@ -73,7 +73,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-          <Logo />
+          <Logo variant='white'/>
         </NavLink>
 
         <button
@@ -84,7 +84,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           className="block lg:hidden"
         >
           <svg
-            className="fill-current"
+            className="fill-current text-purple-600"
             width="20"
             height="18"
             viewBox="0 0 20 18"

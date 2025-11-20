@@ -1,9 +1,10 @@
-import  { ChangeEvent, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import  { ChangeEvent, useEffect, useLayoutEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { handleOrderStatusById, fetchSingleOrderById, handlePaymentStatusById } from "../store/dataSlice";
+import { handleOrderStatusById, fetchSingleOrderById, handlePaymentStatusById, setDeleteOrder, setSingleOrder } from "../store/dataSlice";
 import { OrderStatus, PaymentStatus, SingleOrderItem } from "../types/data";
 import { socket } from "../App";
+import toast from "react-hot-toast";
 
 
 // define the shape of a single order item
@@ -17,12 +18,26 @@ const SingleOrder = () => {
   const [orderStatus, setOrderStatus] = useState<OrderStatus | string>("");
   //@ts-ignore
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | string>("");
+  const navigate = useNavigate()
 
+
+
+ 
+
+  useLayoutEffect
+  (() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+  
   useEffect(() => {
-    if (id) {
-      dispatch(fetchSingleOrderById(id));
-    }
+    if (id) dispatch(fetchSingleOrderById(id));
+  
+    return () => {
+      dispatch(setSingleOrder([]));
+    } // clear previous data on unmount
   }, [id, dispatch]);
+  
+
 
   const handleOrderStatus = (e: ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value as OrderStatus;
@@ -39,6 +54,7 @@ const SingleOrder = () => {
       dispatch(handleOrderStatusById(status, id));
     }
   };
+
   const handlePaymentStatus = (e: ChangeEvent<HTMLSelectElement>) => {
     const status = e.target.value as PaymentStatus;
     setPaymentStatus(status);
@@ -54,11 +70,31 @@ const SingleOrder = () => {
       dispatch(handlePaymentStatusById(status,id));
     }
   };
-
   const handleDeleteOrder = (orderId: string) => {
     socket.emit("deleteOrder", { orderId });
   };
+  
+  useEffect(() => {
+    const handleOrderDeleted = (orderId: string) => {
+      dispatch(setDeleteOrder({orderId}));
+      dispatch(setSingleOrder([]));
+      toast.success("Order Deleted successfully!")
+      setTimeout(() => {
+        navigate("/tables",{state: {scrollTo:"orders"}});
+      }, 2000);
+    };
+  
+    socket.on("orderDeleted", handleOrderDeleted);
+    return () => {
+      socket.off("orderDeleted", handleOrderDeleted);
+    };
+  }, [dispatch]);
 
+
+  
+ const goToOrders = ()=>{
+  navigate("/tables",{state: {scrollTo: "orders"}})
+ }
   if (!singleOrder || singleOrder.length === 0) {
     return (
       <div className="py-20 text-center text-gray-500">
@@ -84,9 +120,19 @@ const SingleOrder = () => {
   };
 
   return (
-    <div className="py-20 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+    
+    <>
+      <button
+        onClick={goToOrders}
+        className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition fixed z-1"
+      >
+        <span className="text-lg">←</span> Go to Orders
+      </button>
+
+
+      <div className="py-20 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
       {/* ---------- Header ---------- */}
-      <div className="flex flex-col space-y-2 my-2">
+      <div className="flex flex-col space-y-2 my-2 sticky top-0">
         <h1 className="text-2xl font-semibold text-gray-700">Order {id}</h1>
         <p className="text-base text-gray-500 dark:text-gray-400">
           {orderInfo?.createdAt
@@ -96,11 +142,12 @@ const SingleOrder = () => {
       </div>
 
       {/* ---------- Main Layout ---------- */}
-      <div className="mt-10 flex flex-col xl:flex-row justify-between items-start w-full xl:space-x-8 space-y-8 xl:space-y-0">
+      <div className="flex flex-col xl:flex-row justify-between items-start w-full xl:space-x-8 space-y-8 xl:space-y-0">
         {/* ---------- Left Section ---------- */}
         <div className="flex flex-col w-full space-y-6 xl:max-h-[80vh] xl:overflow-y-auto pr-2 scrollbar-hide">
-          <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm flex flex-col w-full space-y-6 xl:max-h-[80vh] xl:overflow-y-auto  custom-scrollbar scrollbar-hide hover:lg:shadow-xl">
-            <p className="text-lg md:text-xl dark:text-white font-semibold mb-4">
+          {singleOrder && singleOrder.length > 0 && (
+            <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm flex flex-col w-full space-y-6 xl:max-h-[80vh] xl:overflow-y-auto  custom-scrollbar scrollbar-hide hover:lg:shadow-xl">
+            <p className="text-lg md:text-xl dark:text-white font-semibold mt-10">
               Order Items
             </p>
 
@@ -138,6 +185,7 @@ const SingleOrder = () => {
 
             ))}
           </div>
+          )}
 
           {/* ---------- Order Summary ---------- */}
           <div className="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl shadow-sm">
@@ -223,7 +271,7 @@ const SingleOrder = () => {
           {/* Action Buttons */}
           <div className="flex flex-col space-y-3">
             <button
-              onClick={() => handleDeleteOrder(orderInfo?.Order?.id)}
+              onClick={() => handleDeleteOrder(orderInfo?.Order.id)}
               className="bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
             >
               Delete Order
@@ -232,6 +280,7 @@ const SingleOrder = () => {
         </div>
         </div>
         </div>
+    </>
 
   );
 };

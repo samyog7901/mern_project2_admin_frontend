@@ -267,24 +267,13 @@ export function deleteUser(id:string){
 }
 
 
-export function deleteOrder(id:string){
-    return async function deleteProductThunk(dispatch : AppDispatch){
-        dispatch(setStatus(Status.LOADING))
-        try {
-            const response = await APIAuthenticated.delete('/order/admin/' + id)
-            if(response.status === 200){
-                dispatch(setStatus(Status.SUCCESS))
-                dispatch(setDeleteOrder({orderId:id}))
-            }else{
-                dispatch(setStatus(Status.ERROR))
-                
-            }
-        } catch (error) {
-            dispatch(setStatus(Status.ERROR))
-            
-        }
-    }
-}
+// export function deleteOrder(id: string) {
+//     return function deleteOrderThunk(dispatch: AppDispatch) {
+//       dispatch(setDeleteOrder({ orderId: id }));
+//     };
+// }
+  
+
 export function deleteCategory(id:string){
     return async function deleteProductThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))

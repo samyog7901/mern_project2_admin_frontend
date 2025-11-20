@@ -37,7 +37,7 @@ const AddCategory = () => {
   useEffect(() => {
     if (submitted && status === Status.SUCCESS) {
       toast.success("New category added successfully!");
-      navigate("/tables");
+      navigate("/tables",{state:{scrollTo:"categories"}});
       dispatch(resetStatus());
       setSubmitted(false); // prevent multiple triggers
     }

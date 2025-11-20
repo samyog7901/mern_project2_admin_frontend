@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deleteOrder, fetchOrders, setDeleteOrder} from '../../store/dataSlice';
+import { fetchOrders, setDeleteOrder} from '../../store/dataSlice';
 import { OrderStatus } from '../../types/data';
 import { Link } from 'react-router-dom';
+import { socket } from '../../App';
+import toast from 'react-hot-toast';
 
 
 const TableThree = () => {
@@ -17,11 +19,23 @@ const TableThree = () => {
   useEffect(()=>{
     dispatch(fetchOrders())
   },[dispatch])
-  const handleDelete  = async (id:string)=>{
-   await dispatch(deleteOrder(id))
-   dispatch(fetchOrders())
-   
-  }
+  
+    const handleDeleteOrder = (orderId: string) => {
+      socket.emit("deleteOrder", { orderId });
+    };
+  
+    useEffect(() => {
+      const handleOrderDeleted = (orderId: string) => {
+        dispatch(setDeleteOrder({ orderId }));
+        toast.success("Order deleted successfully!")
+      };
+    
+      socket.on("orderDeleted", handleOrderDeleted);
+    
+      return () => {
+        socket.off("orderDeleted", handleOrderDeleted);
+      }
+    }, [dispatch]);
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
             <div className="py-6 px-4 md:px-6 xl:px-7.5">
@@ -97,7 +111,7 @@ const TableThree = () => {
                         />
                       </svg>
                     </button>
-                    <button onClick={()=>handleDelete(order.id)} className="hover:text-red-800">
+                    <button onClick={()=>handleDeleteOrder(order.id)} className="hover:text-red-800">
                       <svg
                         className="fill-current"
                         width="18"

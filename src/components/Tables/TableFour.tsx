@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deleteCategory,  fetchCaetgories,  } from '../../store/dataSlice';
+import toast from 'react-hot-toast';
 
 
 
@@ -12,6 +13,7 @@ const TableFour = () => {
   },[dispatch])
   const handleDelete  = async (id:string)=>{
     await dispatch(deleteCategory(id))
+    toast.success("Category deleted successfully!")
     dispatch(fetchCaetgories())
   }
   return (

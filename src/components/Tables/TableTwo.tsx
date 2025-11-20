@@ -1,7 +1,8 @@
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
-import { deleteProduct, fetchProducts, setDeleteProduct } from '../../store/dataSlice';
+import { deleteProduct, fetchProducts } from '../../store/dataSlice';
+import toast from 'react-hot-toast';
 
 
 const TableTwo = () => {
@@ -13,6 +14,7 @@ const TableTwo = () => {
 
   const handleDelete = async (id: string) => {
     await dispatch(deleteProduct(id))
+    toast.success("Product deleted successfully!")
     dispatch(fetchProducts())
   
   }

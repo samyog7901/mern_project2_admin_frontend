@@ -2,6 +2,7 @@
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useEffect } from 'react';
 import { deleteUser, fetchUsers } from '../../store/dataSlice';
+import toast from 'react-hot-toast';
 
 
 
@@ -13,6 +14,7 @@ const TableOne = () => {
   },[dispatch])
   const handleDelete  = (id:string)=>{
     dispatch(deleteUser(id))
+    toast.error("User deleted! 😱")
     dispatch(fetchUsers())
   
   }

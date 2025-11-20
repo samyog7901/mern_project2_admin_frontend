@@ -1,7 +1,8 @@
 import React from "react";
+import { LogoTitle } from "./LogoTitle";
 
 
-const Logo: React.FC = () => {
+const Logo: React.FC<{variant?: "white" | "purple"}> = ({variant = "purple"}) => {
   return (
     <div className="flex items-center gap-2">
       {/* Keep existing TailAdmin icon SVG */}
@@ -52,7 +53,7 @@ const Logo: React.FC = () => {
 
 
       {/* Replace TailAdmin text with ShopNest */}
-      <span className="text-xl font-bold text-white">ShopNest Admin</span>
+      <LogoTitle variant={variant}/>
     </div>
   );
 };

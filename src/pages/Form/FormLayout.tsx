@@ -58,7 +58,7 @@ const FormLayout = () => {
   useEffect(()=>{
     if(productSubmitted && status === Status.SUCCESS){
       toast.success("New Product addded successfully");
-      navigate("/tables")
+      navigate("/tables",{state: {scrollTo:"top-products"}})
       dispatch(resetStatus())
       setProductSubmitted(false)
     }
