@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const APIAuthenticated = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'https://ecommerce-platform-2sjj.onrender.com/',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -18,7 +18,7 @@ APIAuthenticated.interceptors.request.use((config) => {
 });
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'https://ecommerce-platform-2sjj.onrender.com/',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

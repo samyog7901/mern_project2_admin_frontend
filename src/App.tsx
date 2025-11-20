@@ -25,7 +25,7 @@ import Login2 from './pages/Authentication/SignIn2';
 
 
 
-export const socket = io("http://localhost:3000",{
+export const socket = io("https://ecommerce-platform-2sjj.onrender.com/",{
   auth : {
     token : localStorage.getItem('token')
   }
