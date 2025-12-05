@@ -21,7 +21,10 @@ const BulkUpload = () => {
     if (!file) return toast.error("Please select a CSV file");
     dispatch(addBulkProducts(file));
   };
-
+  
+  useEffect(() => {
+    dispatch(resetStatus());
+  }, [dispatch]);
   useEffect(() => {
     if (status === "success") {
       toast.success("Bulk products uploaded successfully!");
