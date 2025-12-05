@@ -205,8 +205,7 @@ export function addBulkProducts(file: File) {
   
         if (response.status === 200) {
           dispatch(setStatus(Status.SUCCESS));
-          // Optionally: fetch products again to refresh state
-          dispatch(fetchProducts());
+          
         } else {
           dispatch(setStatus(Status.ERROR));
         }

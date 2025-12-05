@@ -22,9 +22,7 @@ const BulkUpload = () => {
     dispatch(addBulkProducts(file));
   };
   
-  useEffect(() => {
-    dispatch(resetStatus());
-  }, [dispatch]);
+
   useEffect(() => {
     if (status === "success") {
       toast.success("Bulk products uploaded successfully!");
