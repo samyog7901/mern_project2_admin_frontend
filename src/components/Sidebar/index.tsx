@@ -299,7 +299,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Add Product
+                              Add a Product
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/forms/add-bulkProducts"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Add Bulk Products
                             </NavLink>
                           </li>
                           <li>
