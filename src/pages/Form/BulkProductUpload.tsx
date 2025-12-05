@@ -65,6 +65,14 @@ const BulkUpload = () => {
               Upload CSV
             </button>
           </form>
+          <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
+            <p>
+              CSV must have the following columns: <strong>name, description, price, stockQty, categoryId, image</strong>
+            </p>
+            <p>
+              Example: <em>iPhone 16 Pro,Latest model,1500,10,1,https://res.cloudinary.com/demo/image/upload/iphone16_1.jpg</em>
+            </p>
+          </div>
         </div>
       </div>
     </>
