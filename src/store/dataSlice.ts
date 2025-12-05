@@ -22,7 +22,8 @@ const initialState:InititalState = {
     users : [], 
     categories : [],
     singleOrder: [],
-    status : Status.IDLE, 
+    status : Status.IDLE,
+    bulkUploadStatus: Status.IDLE, 
     singleProduct : null
 }
 
@@ -48,7 +49,14 @@ const dataSlice = createSlice({
         }, 
         setProduct(state:InititalState,action:PayloadAction<Product[]>){
             state.products = action.payload 
-        }, 
+        },
+        setBulkUploadStatus(state: InititalState, action: PayloadAction<Status>) {
+            state.bulkUploadStatus = action.payload;
+        },
+        resetBulkUploadStatus(state: InititalState) {
+            state.bulkUploadStatus = Status.IDLE;
+        },
+         
         setOrders(state:InititalState,action:PayloadAction<OrderData[]>){
             state.orders = action.payload 
         }, 
@@ -113,7 +121,7 @@ const dataSlice = createSlice({
     }
 })
 
-export const {setOrders,setCategories,setSingleOrder,updateOrderStatusById, setDeleteCategory,setProduct,setStatus,resetStatus,setUsers,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder,updatePaymentStatusById} = dataSlice.actions
+export const {setOrders,setCategories,setSingleOrder,updateOrderStatusById, setDeleteCategory,setProduct,setBulkUploadStatus,resetBulkUploadStatus,setStatus,resetStatus,setUsers,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder,updatePaymentStatusById} = dataSlice.actions
 export default dataSlice.reducer 
 
 
@@ -191,10 +199,9 @@ export function addProduct(data:AddProduct){
         }
     }
 }
-
 export function addBulkProducts(file: File) {
     return async function addBulkProductsThunk(dispatch: AppDispatch) {
-      dispatch(setStatus(Status.LOADING));
+      dispatch(setBulkUploadStatus(Status.LOADING));
       try {
         const formData = new FormData();
         formData.append("file", file);
@@ -204,17 +211,17 @@ export function addBulkProducts(file: File) {
         });
   
         if (response.status === 200) {
-          dispatch(setStatus(Status.SUCCESS));
-          
+          dispatch(setBulkUploadStatus(Status.SUCCESS));
         } else {
-          dispatch(setStatus(Status.ERROR));
+          dispatch(setBulkUploadStatus(Status.ERROR));
         }
       } catch (error) {
         console.error(error);
-        dispatch(setStatus(Status.ERROR));
+        dispatch(setBulkUploadStatus(Status.ERROR));
       }
     };
-  }
+}
+  
   
 
 export function addCategory(data:{categoryName : string}){

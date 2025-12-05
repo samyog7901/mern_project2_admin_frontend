@@ -1,6 +1,6 @@
 import { useState, FormEvent, ChangeEvent, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { addBulkProducts, fetchProducts, resetStatus } from "../../store/dataSlice";
+import { addBulkProducts, fetchProducts, resetBulkUploadStatus } from "../../store/dataSlice";
 import { useNavigate } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import toast from "react-hot-toast";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 const BulkUpload = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { status } = useAppSelector((state) => state.datas);
+  const { bulkUploadStatus } = useAppSelector((state) => state.datas);
 
   const [file, setFile] = useState<File | null>(null);
 
@@ -24,17 +24,17 @@ const BulkUpload = () => {
   
 
   useEffect(() => {
-    if (status === "success") {
+    if (bulkUploadStatus === "success") {
       toast.success("Bulk products uploaded successfully!");
       dispatch(fetchProducts()); // refresh product list
-      dispatch(resetStatus());
+      dispatch(resetBulkUploadStatus());
       navigate("/tables", { state: { scrollTo: "top-products" } });
     }
-    if (status === "error") {
+    if (bulkUploadStatus === "error") {
       toast.error("Bulk upload failed!");
-      dispatch(resetStatus());
+      dispatch(resetBulkUploadStatus());
     }
-  }, [status, dispatch, navigate]);
+  }, [bulkUploadStatus, dispatch, navigate]);
 
   return (
     <>

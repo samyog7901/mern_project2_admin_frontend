@@ -98,7 +98,8 @@ export interface InititalState{
     products : Product[], 
     users : User[],
     orders : OrderData[], 
-    status : Status, 
+    status : Status,
+    bulkUploadStatus : Status,
     categories :Category[],
     singleProduct : Product | null, 
     singleOrder : SingleOrderItem[]
