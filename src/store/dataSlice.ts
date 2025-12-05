@@ -192,6 +192,32 @@ export function addProduct(data:AddProduct){
     }
 }
 
+export function addBulkProducts(file: File) {
+    return async function addBulkProductsThunk(dispatch: AppDispatch) {
+      dispatch(setStatus(Status.LOADING));
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+  
+        const response = await APIAuthenticated.post("/admin/product/bulk-upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+  
+        if (response.status === 200) {
+          dispatch(setStatus(Status.SUCCESS));
+          // Optionally: fetch products again to refresh state
+          dispatch(fetchProducts());
+        } else {
+          dispatch(setStatus(Status.ERROR));
+        }
+      } catch (error) {
+        console.error(error);
+        dispatch(setStatus(Status.ERROR));
+      }
+    };
+  }
+  
+
 export function addCategory(data:{categoryName : string}){
     return async function addCategoryThunk(dispatch : AppDispatch){
         dispatch(setStatus(Status.LOADING))

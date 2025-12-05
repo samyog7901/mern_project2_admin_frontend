@@ -20,6 +20,7 @@ import {io} from 'socket.io-client'
 import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
 import Login2 from './pages/Authentication/SignIn2';
+import BulkUpload from './pages/Form/BulkProductUpload';
 
 // import LoginProtectedRoute from './pages/Authentication/LoginProtectedRoute';
 
@@ -103,6 +104,21 @@ function App() {
               <DefaultLayout>
               <PageTitle title="Form Layout | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <FormLayout />
+              </DefaultLayout>
+            </ProtectedRoute>
+          
+        }
+      />
+
+<Route
+        path="/forms/add-bulkProducts"
+        element={
+          
+            
+            <ProtectedRoute>
+              <DefaultLayout>
+              <PageTitle title="Bulk Products Upload" />
+              <BulkUpload />
               </DefaultLayout>
             </ProtectedRoute>
           
