@@ -1,164 +1,19 @@
-name,description,price,stockQty,categoryId,image
-"Premium Cotton Kurta – Traditional & Comfortable","This premium kurta is designed for comfort, tradition, and devotional wear. Made from soft and breathable cotton, it provides ease of movement during bhajans, kirtans, and temple visits. The minimalistic design reflects spiritual simplicity while maintaining elegance. Fine stitching and lightweight fabric ensure long-lasting comfort.
-
-Highlights:
-100% breathable cotton
-Traditional devotional design
-Lightweight and skin-friendly
-Ideal for temple service and festivals
-Durable and easy to maintain",1200,40,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107415/premium_cotton_kurta_r30hic.jpg"
-
-"Mayapur Bagalbandi – Traditional & Comfortable","This premium Mayapur bagalbandi is crafted for comfort, elegance, and devotional wear. Made from soft, breathable cotton, it provides ease of movement during bhajans, kirtans, festivals, and temple services. The traditional Mayapur design reflects simplicity while maintaining a graceful devotional look. Fine stitching and lightweight fabric ensure long-lasting comfort and durability.
-
-Highlights:
-100% breathable cotton
-Traditional devotional bagalbandi design
-Lightweight, soft, and skin-friendly
-Ideal for temple service, festivals, and cultural events
-Durable, easy to wash, and long-lasting",1200,35,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107367/mayapur_bagalbandi_vgbhfl.jpg"
-
-"Matka Silk Dhoti, Kurta & Chadar – Traditional & Comfortable","This premium Matka silk dhoti, kurta, and chadar set is crafted for elegance, comfort, and devotional wear. Made from soft, breathable Matka silk, it provides smooth movement during bhajans, kirtans, festivals, and temple services. The luxurious texture of silk reflects sophistication while maintaining traditional charm. Fine stitching and lightweight fabric ensure long-lasting comfort and durability.
-
-Highlights:
-100% premium Matka silk
-Traditional devotional wear set (dhoti, kurta & chadar)
-Soft, lightweight, and skin-friendly
-Ideal for temple service, festivals, and cultural events
-Durable, easy to maintain, and long-lasting",2500,30,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107333/matka_silk_dhoti_kurta_chadar_utl23h.jpg"
-
-"Tilak Applicator Stick – Smooth & Easy Use","This tilak applicator is crafted for clean, precise, and effortless tilak application. Made from polished wood, it ensures smooth strokes while maintaining devotional hygiene. Lightweight and easy to hold, it supports daily sadhana and spiritual discipline.
-
-Highlights:
-Smooth polished finish
-Ideal for applying clean and even tilak
-Lightweight and durable design
-Perfect for home and temple use
-Easy to carry for travel",150,80,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107513/tilak_applicator_stick_pbs3ca.jpg"
-
-"Devotional Shawl – Hare Krishna Print","This devotional shawl is crafted from lightweight cotton featuring the sacred Hare Krishna mantra. Soft and breathable, it provides comfort during chanting, meditation, and temple activities. The traditional print reflects spiritual devotion while maintaining style.
-
-Highlights:
-Soft and breathable fabric
-Sacred Hare Krishna mantra print
-Lightweight for long sessions
-Ideal for japa, meditation, and temple visits
-Durable and easy to wash",450,60,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107023/devotional_shawl_hk_xvi05u.jpg"
-
-"Spiritual Bead Bag – Premium Quality","This premium bead bag is crafted from durable cotton to protect your japa beads during chanting. Designed to fit comfortably in hand, it supports focused mantra meditation and devotional discipline.
-
-Highlights:
-Soft and protective cotton material
-Comfortable hand-fit design
-Perfect for japa and meditation
-Lightweight for daily use
-Durable and long-lasting fabric",300,75,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765115058/spiritual_bead_bag_mog1ov.jpg"
-
-"Hare Krishna T-Shirt – Soft & Devotional","This Hare Krishna T-shirt is made from premium cotton for maximum comfort. Designed with a devotional print, it blends spiritual identity with modern style. Ideal for festivals, kirtans, and daily wear.
-
-Highlights:
-Soft, breathable cotton fabric
-Devotional Hare Krishna print
-Comfort fit for all-day wear
-Perfect for kirtans and festivals
-Long-lasting color and stitching",800,70,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107117/hare_krishna_tshirt_klm4hh.jpg"
-
-"Harmonium Bellows Cover – Protective & Soft","This harmonium cover is designed to protect bellows from dust and wear. Made from premium fabric, it ensures smooth, long-lasting performance.
-
-Highlights:
-Soft protective padding
-Ensures smooth bellows function
-Ideal for travel and storage
-Durable and easy to maintain
-Perfect for devotional musicians",500,28,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107229/harmonium_bellows_cover_swnqbu.jpg"
-
-"Small Kartal – Clear Tone and Compact","This compact kartal pair offers crisp sound and easy handling. Crafted from quality metal alloy, it is ideal for children's kirtan groups and travel.
-
-Highlights:
-Clear and bright tone
-Easy-to-hold compact design
-Durable metal alloy
-Perfect for beginners and kids
-Lightweight for travel use",350,40,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107992/small_kartal_qfnk1k.jpg"
-
-"Devotional Hand Drum – Lightweight & Rhythmic","This hand drum is designed for rhythmic accompaniment during bhajans and kirtans. Lightweight and durable, it produces warm devotional tones.
-
-Highlights:
-Lightweight design
-Warm rhythmic sound
-Perfect for small satsangs
-Comfortable grip
-Durable drum head",1000,22,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765106743/devotional_hand_drum_enfoqq.jpg"
-
-"Conch Shell (Shankh) – Pure & Resonant","This natural conch shell produces a deep and auspicious tone used in temple ceremonies and morning worship. Its polished surface enhances both beauty and spiritual impact.
-
-Highlights:
-Natural and authentic conch
-Deep resonant sound
-Ideal for puja and arati
-Smooth polished surface
-Represents purity and auspiciousness",2500,15,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765106688/conch_shell_aeoyvp.jpg"
-
-"Bhagavad-Gita Pocket Edition – Compact & Devotional","This compact Bhagavad-Gita edition is designed for easy reading and daily meditation. Lightweight and portable, it inspires spiritual understanding and reflection.
-
-Highlights:
-Pocket-friendly size
-Clear and readable print
-Perfect for travel and daily study
-Devotional presentation
-Durable binding",350,100,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107066/gita_pocket_edition_h1tax7.jpg"
-
-"Srimad Bhagavatam Canto 1 – Premium Edition","This premium edition of Srimad Bhagavatam Canto 1 offers deep spiritual knowledge rendered in clear language. High-quality pages ensure comfortable reading.
-
-Highlights:
-Premium paper quality
-Authentic ISKCON translation
-Easy-to-read layout
-Durable hardcover binding
-Essential spiritual literature",1100,40,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765106573/bhagavatam_canto1_j5pxww.jpg"
-
-"Nectar of Devotion – Complete Guide to Bhakti","This classic ISKCON text explains the science of bhakti with clarity and depth. Perfect for beginners and advanced devotees alike.
-
-Highlights:
-Comprehensive bhakti teachings
-Clear and structured content
-High-quality print
-Durable binding
-Essential for spiritual growth",600,55,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107772/nectar_of_devotion_zpr7pj.jpg"
-
-"Teachings of Lord Caitanya – Devotional Wisdom","This book beautifully explains Lord Caitanya’s teachings of love, devotion, and chanting. Clear and inspirational for all seekers.
-
-Highlights:
-Authentic ISKCON edition
-Simple and inspiring explanations
-High-quality paper
-Durable cover
-Perfect for daily study",450,48,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107856/teachings_of_lord_caitanya_ilhhwd.jpg"
-
-"Krishna Book – Divine Pastimes","This devotional classic narrates Krishna’s divine pastimes with immersive storytelling. The elegant layout enhances the reading experience.
-
-Highlights:
-Engaging spiritual narration
-High-quality paper and print
-Durable binding
-Essential for Krishna devotees
-Perfect for meditation and study",650,60,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107261/krishna_book_edsbsp.jpg"
-
-"Ramayan – Devotional Edition","This spiritual classic presents the life of Lord Rama with deep devotional mood. Printed on high-quality pages for smooth reading.
-
-Highlights:
-Inspiring Ramayana narration
-Clean font and layout
-Hardbound edition
-Ideal for spiritual study
-Devotional presentation",1100,35,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107948/ramayan_bwgd4j.jpg"
-
-"Mridanga – Traditional & Balanced","This mridanga stick set is crafted for crisp rhythm and devotional performance. Designed from strong wood, it delivers balanced sound and smooth striking. Perfect for kirtan musicians.
-
-Highlights:
-Durable hardwood construction
-Balanced design for clear sound
-Comfortable grip for long sessions
-Ideal for kirtan and bhajans
-Smooth finish for effortless play",12000,30,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107664/mridanga_feoona.jpg"
-
-
+productName,description,price,stockQty,categoryId,image
+"Premium Cotton Kurta – Traditional & Comfortable","This premium kurta is designed for comfort, tradition, and devotional wear. Made from soft and breathable cotton, it provides ease of movement during bhajans, kirtans, and temple visits. The minimalistic design reflects spiritual simplicity while maintaining elegance. Fine stitching and lightweight fabric ensure long-lasting comfort. Highlights: 100% breathable cotton, Traditional devotional design, Lightweight and skin-friendly, Ideal for temple service and festivals, Durable and easy to maintain.",1200,40,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107415/premium_cotton_kurta_r30hic.jpg"
+"Mayapur Bagalbandi – Traditional & Comfortable","This premium Mayapur bagalbandi is crafted for comfort, elegance, and devotional wear. Made from soft, breathable cotton, it provides ease of movement during bhajans, kirtans, festivals, and temple services. The traditional Mayapur design reflects simplicity while maintaining a graceful devotional look. Fine stitching and lightweight fabric ensure long-lasting comfort and durability. Highlights: 100% breathable cotton, Traditional devotional bagalbandi design, Lightweight, soft, and skin-friendly, Ideal for temple service, festivals, and cultural events, Durable, easy to wash, and long-lasting.",1200,35,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107367/mayapur_bagalbandi_vgbhfl.jpg"
+"Matka Silk Dhoti, Kurta & Chadar – Traditional & Comfortable","This premium Matka silk dhoti, kurta, and chadar set is crafted for elegance, comfort, and devotional wear. Made from soft, breathable Matka silk, it provides smooth movement during bhajans, kirtans, festivals, and temple services. The luxurious texture of silk reflects sophistication while maintaining traditional charm. Fine stitching and lightweight fabric ensure long-lasting comfort and durability. Highlights: 100% premium Matka silk, Traditional devotional wear set (dhoti, kurta & chadar), Soft, lightweight, and skin-friendly, Ideal for temple service, festivals, and cultural events, Durable, easy to maintain, and long-lasting.",2500,30,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107333/matka_silk_dhoti_kurta_chadar_utl23h.jpg"
+"Tilak Applicator Stick – Smooth & Easy Use","This tilak applicator is crafted for clean, precise, and effortless tilak application. Made from polished wood, it ensures smooth strokes while maintaining devotional hygiene. Lightweight and easy to hold, it supports daily sadhana and spiritual discipline. Highlights: Smooth polished finish, Ideal for applying clean and even tilak, Lightweight and durable design, Perfect for home and temple use, Easy to carry for travel.",150,80,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107513/tilak_applicator_stick_pbs3ca.jpg"
+"Devotional Shawl – Hare Krishna Print","This devotional shawl is crafted from lightweight cotton featuring the sacred Hare Krishna mantra. Soft and breathable, it provides comfort during chanting, meditation, and temple activities. The traditional print reflects spiritual devotion while maintaining style. Highlights: Soft and breathable fabric, Sacred Hare Krishna mantra print, Lightweight for long sessions, Ideal for japa, meditation, and temple visits, Durable and easy to wash.",450,60,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107023/devotional_shawl_hk_xvi05u.jpg"
+"Spiritual Bead Bag – Premium Quality","This premium bead bag is crafted from durable cotton to protect your japa beads during chanting. Designed to fit comfortably in hand, it supports focused mantra meditation and devotional discipline. Highlights: Soft and protective cotton material, Comfortable hand-fit design, Perfect for japa and meditation, Lightweight for daily use, Durable and long-lasting fabric.",300,75,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765115058/spiritual_bead_bag_mog1ov.jpg"
+"Hare Krishna T-Shirt – Soft & Devotional","This Hare Krishna T-shirt is made from premium cotton for maximum comfort. Designed with a devotional print, it blends spiritual identity with modern style. Ideal for festivals, kirtans, and daily wear. Highlights: Soft, breathable cotton fabric, Devotional Hare Krishna print, Comfort fit for all-day wear, Perfect for kirtans and festivals, Long-lasting color and stitching.",800,70,"54b7a739-e77a-4ad9-ac54-8a6b3e605812","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107117/hare_krishna_tshirt_klm4hh.jpg"
+"Harmonium Bellows Cover – Protective & Soft","This harmonium cover is designed to protect bellows from dust and wear. Made from premium fabric, it ensures smooth, long-lasting performance. Highlights: Soft protective padding, Ensures smooth bellows function, Ideal for travel and storage, Durable and easy to maintain, Perfect for devotional musicians.",500,28,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107229/harmonium_bellows_cover_swnqbu.jpg"
+"Small Kartal – Clear Tone and Compact","This compact kartal pair offers crisp sound and easy handling. Crafted from quality metal alloy, it is ideal for children's kirtan groups and travel. Highlights: Clear and bright tone, Easy-to-hold compact design, Durable metal alloy, Perfect for beginners and kids, Lightweight for travel use.",350,40,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107992/small_kartal_qfnk1k.jpg"
+"Devotional Hand Drum – Lightweight & Rhythmic","This hand drum is designed for rhythmic accompaniment during bhajans and kirtans. Lightweight and durable, it produces warm devotional tones. Highlights: Lightweight design, Warm rhythmic sound, Perfect for small satsangs, Comfortable grip, Durable drum head.",1000,22,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765106743/devotional_hand_drum_enfoqq.jpg"
+"Conch Shell (Shankh) – Pure & Resonant","This natural conch shell produces a deep and auspicious tone used in temple ceremonies and morning worship. Its polished surface enhances both beauty and spiritual impact. Highlights: Natural and authentic conch, Deep resonant sound, Ideal for puja and arati, Smooth polished surface, Represents purity and auspiciousness.",2500,15,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765106688/conch_shell_aeoyvp.jpg"
+"Bhagavad-Gita Pocket Edition – Compact & Devotional","This compact Bhagavad-Gita edition is designed for easy reading and daily meditation. Lightweight and portable, it inspires spiritual understanding and reflection. Highlights: Pocket-friendly size, Clear and readable print, Perfect for travel and daily study, Devotional presentation, Durable binding.",350,100,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107066/gita_pocket_edition_h1tax7.jpg"
+"Srimad Bhagavatam Canto 1 – Premium Edition","This premium edition of Srimad Bhagavatam Canto 1 offers deep spiritual knowledge rendered in clear language. High-quality pages ensure comfortable reading. Highlights: Premium paper quality, Authentic ISKCON translation, Easy-to-read layout, Durable hardcover binding, Essential spiritual literature.",1100,40,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765106573/bhagavatam_canto1_j5pxww.jpg"
+"Nectar of Devotion – Complete Guide to Bhakti","This classic ISKCON text explains the science of bhakti with clarity and depth. Perfect for beginners and advanced devotees alike. Highlights: Comprehensive bhakti teachings, Clear and structured content, High-quality print, Durable binding, Essential for spiritual growth.",600,55,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107772/nectar_of_devotion_zpr7pj.jpg"
+"Teachings of Lord Caitanya – Devotional Wisdom","This book beautifully explains Lord Caitanya’s teachings of love, devotion, and chanting. Clear and inspirational for all seekers. Highlights: Authentic ISKCON edition, Simple and inspiring explanations, High-quality paper, Durable cover, Perfect for daily study.",450,48,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107856/teachings_of_lord_caitanya_ilhhwd.jpg"
+"Krishna Book – Divine Pastimes","This devotional classic narrates Krishna’s divine pastimes with immersive storytelling. The elegant layout enhances the reading experience. Highlights: Engaging spiritual narration, High-quality paper and print, Durable binding, Essential for Krishna devotees, Perfect for meditation and study.",650,60,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107261/krishna_book_edsbsp.jpg"
+"Ramayan – Devotional Edition","This spiritual classic presents the life of Lord Rama with deep devotional mood. Printed on high-quality pages for smooth reading. Highlights: Inspiring Ramayana narration, Clean font and layout, Hardbound edition, Ideal for spiritual study, Devotional presentation.",1100,35,"dbfdf8fc-08bd-458a-85d0-256aac907c50","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107948/ramayan_bwgd4j.jpg"
+"Mridanga – Traditional & Balanced","This mridanga stick set is crafted for crisp rhythm and devotional performance. Designed from strong wood, it delivers balanced sound and smooth striking. Perfect for kirtan musicians. Highlights: Durable hardwood construction, Balanced design for clear sound, Comfortable grip for long sessions, Ideal for kirtan and bhajans, Smooth finish for effortless play.",12000,30,"c4a0fd80-7665-42b4-aed1-93ba22e53007","https://res.cloudinary.com/dry05jnmn/image/upload/v1765107664/mridanga_feoona.jpg"
