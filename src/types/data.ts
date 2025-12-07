@@ -58,7 +58,8 @@ export interface ItemDetails{
     paymentDetails : Payment,
     items : ItemDetails[], 
     id : string, 
-    orderStatus : OrderStatus
+    orderStatus : OrderStatus,
+    created_At : string
 }
 export interface Category{
     id : string, 

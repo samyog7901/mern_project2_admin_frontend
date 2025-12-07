@@ -65,7 +65,7 @@ const TableThree = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.length> 0 && orders.map((order, key) => (
+            {orders.length > 0 && orders.slice().sort((a, b) => new Date(b.created_At).getTime() - new Date(a.created_At).getTime()).slice(0, 10).map((order, key) => (
               <tr key={key}>
                 <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
